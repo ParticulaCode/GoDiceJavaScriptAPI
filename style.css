@@ -1,0 +1,27 @@
+.first{
+	max-width: 100%;
+    
+}
+.logo{
+	float: left;
+    text-decoration: none;
+    color: #002e79;
+    font-size: 10pt;
+    font-family: "Corbel-Regular";
+    padding: 3px;
+    font-weight: bold;
+    letter-spacing: 0.2pt;
+    background: url(images/godice.png) center center /cover no-repeat;
+    width: 60px;
+    height: 60px;
+    margin: 14px 0px 0px 362px;
+    display: block;
+}
+
+div{
+	margin: 0; 
+	padding: 0;	
+}
+ .main-menu{
+	 margin:
+ }
