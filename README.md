@@ -9,7 +9,7 @@ Here are some of the things that you can do with the GoDice JavaScript API:
 * Turn ON/OFF GoDice RGB Leds
 * Ask for the die Color (dots color)
 * Ask for the die battery level
-* Get differernt notifications reagrding the die state (Rolling or Stabe and get the outcome number)
+* Get differernt notifications reagrding the die state (Rolling or Stable and get the outcome number)
 
 To run the demo (that use the API) just open the index.html file in Chrome or Microsoft Edge browser
 
