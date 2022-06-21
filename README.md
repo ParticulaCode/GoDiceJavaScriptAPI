@@ -240,3 +240,18 @@ Events:
       let accZ = xyzAccRaw[2];
   };
 ```   
+
+
+ ```javascript 
+ /**
+  * When the die has started rolling the function "onRollStart" will be called from the GoDice class with the following parameter:
+  * @param {string} diceId - the die unique identifier	 
+  */
+  
+  // example:
+  
+  GoDice.prototype.onRollStart = (diceId) => {
+      // die unique identifier
+      let dieIdentifier = diceID;
+  };
+```   
