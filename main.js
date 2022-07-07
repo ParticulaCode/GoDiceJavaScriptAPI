@@ -31,9 +31,9 @@ GoDice.prototype.onDiceConnected = (diceId, diceInstance) => {
 	const diceHtmlEl = getDiceHtmlEl(diceId);
 
 	// clear existing die element content if it exists
-    while (diceHtmlEl.firstChild) {
-        diceHtmlEl.removeChild(diceHtmlEl.lastChild);
-    }
+	while (diceHtmlEl.firstChild) {
+        	diceHtmlEl.removeChild(diceHtmlEl.lastChild);
+	}
 
 	// get die host from html, where we will put our connected dices
 	const diceHost = document.getElementById("dice-host");
