@@ -442,8 +442,7 @@ class GoDice {
 				const diceCurrentNumber = this.getDieValue(data, 1);
 				const xyzArray = this.getXyzFromBytes(data, 1)
 				this.rolledValue = diceCurrentNumber;
-				this.onStable(deviceId, diceCurrentNumber, xyzArray);
-				}
+				this.onStable(deviceId, diceCurrentNumber, xyzArray);				
 			}
 
 			if (firstByte === 70 && secondByte === 83) {
