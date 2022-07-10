@@ -10,6 +10,7 @@ Here are some of the things that you can do with the GoDice JavaScript API:
 * Ask for the die Color (dots color)
 * Ask for the die battery level
 * Get differernt notifications reagrding the die state (Rolling or Stable and get the outcome number)
+* Use and configure different shells
 
 To run the demo (that use the API) just open the index.html file in Chrome or Microsoft Edge browser
 
@@ -79,7 +80,17 @@ Requests:
   * from the GoDice class (instance).
   */
   getBatteryLevel()
-```   
+```
+
+```javascript
+  /**
+  * Sets the die type for the die value calculations, Use GoDice.diceTypes.X for die type.
+  * Supported dice types (Shells): D6, D20, D10, D10X, D4, D8, D12
+  * Default die type is D6 (when not calling this function)
+  * @param {ENUM} GoDice.diceTypes - the die type
+  */
+  setDieType(GoDice.diceTypes)
+```
    
    
 Responses:   
@@ -150,7 +161,7 @@ Events:
  /**
   * When the die is stable after a legit roll the function "onStable" will be called from the GoDice class with the following parameter:
   * @param {string} diceId - the die unique identifier	 
-  * @param {string} value - the D6 outcome value (1-6)
+  * @param {string} value - the die outcome value, depends on the die type, default is D6
   * @param {array} xyzAccRaw [x, y, z] - the acc raw data x, y, z 
   */
   
@@ -160,7 +171,7 @@ Events:
       // die unique identifier
       let dieIdentifier = diceID;
 	  
-      // the D6 outcome value (1-6)
+      // the die outcome value
       let dieValue = value;
 	  
       // the acc raw values x,y,z
@@ -176,13 +187,17 @@ Events:
   * When the die is stable (but not flat) after a legit roll the function "onTiltStable" will be called from the GoDice class with the following parameter:
   * @param {string} diceId - the die unique identifier	 
   * @param {array} xyzAccRaw [x, y, z] - the acc raw data x, y, z 
+  * @param {string} value - the die outcome value, depends on the die type, default is D6
   */
   
   // example:
   
-  GoDice.prototype.onTiltStable = (diceId, xyzAccRaw) => {
+  GoDice.prototype.onTiltStable = (diceId, xyzAccRaw, value) => {
       // die unique identifier
       let dieIdentifier = diceID;
+      
+      // the die outcome value
+      let dieValue = value;      
 
       // the acc raw values x,y,z
       let accX = xyzAccRaw[0];
@@ -196,7 +211,7 @@ Events:
  /**
   * When the die is stable after a "fake" roll the function "onFakeStable" will be called from the GoDice class with the following parameter:
   * @param {string} diceId - the die unique identifier	 
-  * @param {string} value - the D6 outcome value (1-6)
+  * @param {string} value - the die outcome value, depends on the die type, default is D6
   * @param {array} xyzAccRaw [x, y, z] - the acc raw data x, y, z 
   */
   
@@ -206,7 +221,7 @@ Events:
       // die unique identifier
       let dieIdentifier = diceID;
 	  
-      // the D6 outcome value (1-6)
+      // the die outcome value
       let dieValue = value;
 	  
       // the acc raw values x,y,z
@@ -221,7 +236,7 @@ Events:
  /**
   * When the die is stable after a small movement (rotating from one face to different face) the function "onMoveStable" will be called from the GoDice class with the   * following parameter:
   * @param {string} diceId - the die unique identifier	 
-  * @param {string} value - the D6 outcome value (1-6)
+  * @param {string} value - the die outcome value, depends on the die type, default is D6
   * @param {array} xyzAccRaw [x, y, z] - the acc raw data x, y, z 
   */
   
@@ -231,7 +246,7 @@ Events:
       // die unique identifier
       let dieIdentifier = diceID;
 	  
-      // the D6 outcome value (1-6)
+      // the die outcome value
       let dieValue = value;
 	  
       // the acc raw values x,y,z
