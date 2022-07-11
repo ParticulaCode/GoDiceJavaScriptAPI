@@ -71,7 +71,14 @@ GoDice.prototype.onDiceConnected = (diceId, diceInstance) => {
 	ledOffButton.onclick = diceInstance.setLed.bind(diceInstance, [0], [0])
 	ledOffButton.textContent = 'Switch Off Led';
 	diceHtmlEl.append(ledOffButton)
-
+	
+	// Pulse Led
+	const ledPulseButton = document.createElement('button');
+	ledPulseButton.className = 'btn btn-outline-primary';
+	ledPulseButton.onclick = diceInstance.pulseLed.bind(diceInstance, 5, 30, 20, [0, 0, 255])
+	ledPulseButton.textContent = "Pulse"
+	diceHtmlEl.append(ledPulseButton)
+	
 	// get Dice color to use goDice.getDiceColor(diceID) function
 	const getDiceColorButton = document.createElement('button');
 	getDiceColorButton.className = 'btn btn-outline-primary';

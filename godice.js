@@ -9,6 +9,7 @@ class GoDice {
 		BATTERY_LEVEL: 3,
 		DICE_COLOUR: 23,
 		SET_LED: 8,
+		SET_LED_TOGGLE: 16,
 	}
 	
 	diceColour = {
@@ -278,10 +279,11 @@ class GoDice {
 
 	/**
 	 * Turn On/Off RGB LEDs, will turn off if led1 and led2 are null
-	 * @param {Array} led1 - an array to control the 1st LED in the following format '[R,G,B]'
-	 *                                where R,G and B are numbers in the range of 0-255
-	 * @param {Array} led2 - an array to control the 2nd LED in the following format '[R,G,B]'
-	 *                                where R,G and B are numbers in the range of 0-255
+	 * @param {Array} led1 - an array to control the 1st LED in the following format '[R, G, B]'
+	 *                       where R,G and B are numbers in the range of 0-255
+	 *
+	 * @param {Array} led2 - an array to control the 2nd LED in the following format '[R, G, B]'
+	 *                       where R,G and B are numbers in the ran	ge of 0-255
 	 */
 	setLed(led1, led2) {
 		console.log(led1, led2)
@@ -295,6 +297,22 @@ class GoDice {
 		const messageArray = [this.messageIdentifiers.SET_LED, ...adjustedLed1, ...adjustedLed2];
 		console.debug("messageArray", messageArray);
 		this.sendMessage(messageArray);
+	}
+	
+	/**
+	 * Pulses LEDs for set time and color
+	 * @param {number} pulseCount - an integer of how many times the pulse will repeat (max 255)
+	 * @param {number} onTime 	- how much time should the LED be ON each pulse (units of 10ms, max 255) 
+	 * @param {number} offTime 	- how much time should the LED be OFF each pulse (units of 10ms, max 255)
+	 * @param {Array}  RGB  - an array to control both LEDs color's in the following format '[R, G, B]' 
+	 * 						 where R, G and B are number in the range of 0-255
+	 */
+	pulseLed(pulseCount, onTime, offTime, RGB) {
+		if (RGB.length === 3) {
+			let rgbColor = RGB.map((i) => Math.max(Math.min(i, 255), 0));
+			const messageArray = [this.messageIdentifiers.SET_LED_TOGGLE, pulseCount, onTime, offTime, ...rgbColor, 1, 0]
+			this.sendMessage(messageArray);
+		}
 	}
 
 	/******* Internal Helper Functions *******/
@@ -442,7 +460,7 @@ class GoDice {
 				const diceCurrentNumber = this.getDieValue(data, 1);
 				const xyzArray = this.getXyzFromBytes(data, 1)
 				this.rolledValue = diceCurrentNumber;
-				this.onStable(deviceId, diceCurrentNumber, xyzArray);				
+				this.onStable(deviceId, diceCurrentNumber, xyzArray);
 			}
 
 			if (firstByte === 70 && secondByte === 83) {

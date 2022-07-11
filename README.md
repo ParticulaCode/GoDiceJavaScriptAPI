@@ -55,6 +55,17 @@ Message:
  */                          
  setLed(led1, led2);
 ```
+```javascript
+/**
+ * Pulses LEDs for a defined time and color
+ * @param {number} pulseCount - an integer of how many times the pulse will repeat (max 255)
+ * @param {number} onTime - how much time should the LED be ON each pulse (units of 10ms, max 255) 
+ * @param {number} offTime - how much time should the LED be OFF each pulse (units of 10ms, max 255)
+ * @param {Array}  RGB - an array to control both LEDs color's in the following format '[R, G, B]' 
+ *                 where R, G and B are number in the range of 0-255
+ */
+ pulseLed(pulseCount, onTime, offTime, RGB)
+```
 
 Requests:
 ---------
@@ -96,7 +107,7 @@ Requests:
 Responses:   
 ----------
 ```javascript
-/**
+ /**
   * To recognize connected die, override the function "onDiceConnected" in the GoDice class, with the following parameter:
   * @param {string} diceID - the die unique identifier	 
   * @param {GoDice class} diceInstance - the die class instance	 
