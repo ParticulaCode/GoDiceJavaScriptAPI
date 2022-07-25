@@ -280,6 +280,20 @@ class GoDice {
 				this.connectDeviceAndCacheCharacteristics();				
 			});
 	}
+	
+	/**
+	 * Attempts to reconnect to the device incase of disconnect
+	 */
+	attemptReconnect() {
+		if (this.bluetoothDevice) {
+			// This object's device exists
+			if (this.bluetoothDevice.gatt.connected) {
+				console.debug(this.GlobalDeviceId + "'s Bluetooth device is already connected")
+			} else {
+				this.connectDeviceAndCacheCharacteristics()
+			}
+		}
+	}
 
 	/**
 	 * Turn On/Off RGB LEDs, will turn off if led1 and led2 are null
