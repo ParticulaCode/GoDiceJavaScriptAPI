@@ -94,6 +94,13 @@ Requests:
 ```
 
 ```javascript
+ /**
+  * Attempts to recconect to dice's bluetooth device, incase the device is already connected 
+  * If the reconnection was successful an onDiceConnected event will follow
+ **/
+ attemptReconnect()
+
+```javascript
   /**
   * Sets the die type for the die value calculations, Use GoDice.diceTypes.X for die type.
   * Supported dice types (Shells): D6, D20, D10, D10X, D4, D8, D12
