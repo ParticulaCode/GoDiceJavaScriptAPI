@@ -122,8 +122,26 @@ GoDice.prototype.onDiceConnected = (diceId, diceInstance) => {
   // die unique identifier
   let dieClass = diceInstance;		
 };
-```    
+```
+
+```javascript
+ /**
+  * To recognize when a die has disconneted, override the function "onDiceDisconnected" in the GoDice class, with the following parameter:
+  * @param {string} diceID - the die unique identifier	 
+  * @param {GoDice class} diceInstance - the die class instance	 
+  */
+
+// example:
   
+GoDice.prototype.onDiceDisconnected = (diceId, diceInstance) => {  
+  // die unique identifier
+  let dieIdentifier = diceID;
+	
+  // die unique identifier
+  let dieClass = diceInstance;		
+};
+```
+
  ```javascript
  /**
   * To recognize the battery level, override the function "onBatteryLevel" in the GoDice class, with the following parameter:
