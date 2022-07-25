@@ -237,6 +237,7 @@ class GoDice {
 	onTiltStable(){};
 	onMoveStable(){};
 	onDiceConnected(){};
+	onDiceDisconnected(){};
 
 	/******* API functions *******/
 
@@ -271,8 +272,11 @@ class GoDice {
 		})
 			.then(device => {				
 				this.GlobalDeviceId = device.id.toString();				
-				this.bluetoothDevice = device;				
-				this.bluetoothDevice.addEventListener('gattserverdisconnected', this.onDisconnected);				
+				this.bluetoothDevice = device;
+				var _self = this
+				this.bluetoothDevice.addEventListener('gattserverdisconnected', function() {
+					_self.onDiceDisconnected(_self.GlobalDeviceId, _self)
+				})
 				this.connectDeviceAndCacheCharacteristics();				
 			});
 	}
@@ -300,17 +304,19 @@ class GoDice {
 	}
 	
 	/**
-	 * Pulses LEDs for set time and color
-	 * @param {number} pulseCount - an integer of how many times the pulse will repeat (max 255)
-	 * @param {number} onTime 	- how much time should the LED be ON each pulse (units of 10ms, max 255) 
-	 * @param {number} offTime 	- how much time should the LED be OFF each pulse (units of 10ms, max 255)
-	 * @param {Array}  RGB  - an array to control both LEDs color's in the following format '[R, G, B]' 
-	 * 						 where R, G and B are number in the range of 0-255
-	 */
+	* Pulses LEDs for set time and color
+	* @param {number} pulseCOunt - an integer of how many times the pulse will repeat (max 255)
+	* @param {number} onTime 	- how much time should the LED be on each pulse (units of 10ms, max 255) 
+	* @param {number} offTOme 	- how much time should the LED be off each pulse (units of 10ms, max 255)
+	* @param {Array}  RGB  - an array to control both LEDs color's in the following format '[R, G, B]' 
+	* 						 where R, G and B are number in the range of 0-255
+	*/
 	pulseLed(pulseCount, onTime, offTime, RGB) {
+		// first boolean - isMix
+		// second boolean - onlyOneLED
 		if (RGB.length === 3) {
-			let rgbColor = RGB.map((i) => Math.max(Math.min(i, 255), 0));
-			const messageArray = [this.messageIdentifiers.SET_LED_TOGGLE, pulseCount, onTime, offTime, ...rgbColor, 1, 0]
+			let adjRGB = RGB.map((i) => Math.max(Math.min(i, 255), 0));
+			const messageArray = [this.messageIdentifiers.SET_LED_TOGGLE, pulseCount, onTime, offTime, ...adjRGB, 1, 0]
 			this.sendMessage(messageArray);
 		}
 	}
@@ -524,6 +530,7 @@ class GoDice {
 			.then(_ => {
 				console.debug('onDiceConnected');
 				this.onDiceConnected(this.GlobalDeviceId, this);
+				console.log(this)
 			})
 			.catch(error => {
 				console.error('Argh! ' + error);
@@ -548,7 +555,4 @@ class GoDice {
 		this.bluetoothDevice = null;
 	}
 
-	onDisconnected(event) {
-		console.debug('> Bluetooth Device disconnected:' + event);
-	}
 }
