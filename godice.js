@@ -245,7 +245,7 @@ class GoDice {
 	 * Request for the die battery, that should follow by corresponding "BatteryLevel" event (response).
 	 */
 	getBatteryLevel() {
-		console.log(this)
+		console.debug(this)
 		this.sendMessage([this.messageIdentifiers.BATTERY_LEVEL]);
 	}
 
@@ -253,7 +253,7 @@ class GoDice {
 	 * Request for the die color, that should follow by corresponding "DiceColor" event (response).
 	 */
 	getDiceColor() {
-		console.log(this)
+		console.debug(this)
 		this.sendMessage([this.messageIdentifiers.DICE_COLOUR]);
 	}
 	
@@ -284,13 +284,13 @@ class GoDice {
 	/**
 	 * Attempts to reconnect to the device incase of disconnect
 	 */
-	attemptReconnect() {
+	async attemptReconnect() {
 		if (this.bluetoothDevice) {
 			// This object's device exists
 			if (this.bluetoothDevice.gatt.connected) {
 				console.debug(this.GlobalDeviceId + "'s Bluetooth device is already connected")
 			} else {
-				this.connectDeviceAndCacheCharacteristics()
+				await this.connectDeviceAndCacheCharacteristics()
 			}
 		}
 	}
