@@ -270,14 +270,14 @@ class GoDice {
 			filters: [{ namePrefix: 'GoDice_' }],
 			optionalServices: ['6e400001-b5a3-f393-e0a9-e50e24dcca9e']
 		})
-			.then(device => {				
+			.then(async device => {				
 				this.GlobalDeviceId = device.id.toString();				
 				this.bluetoothDevice = device;
 				var _self = this
 				this.bluetoothDevice.addEventListener('gattserverdisconnected', function() {
 					_self.onDiceDisconnected(_self.GlobalDeviceId, _self)
 				})
-				this.connectDeviceAndCacheCharacteristics();				
+				await this.connectDeviceAndCacheCharacteristics();				
 			});
 	}
 	
