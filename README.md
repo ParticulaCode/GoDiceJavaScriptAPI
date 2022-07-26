@@ -110,7 +110,7 @@ Requests:
   setDieType(GoDice.diceTypes)
 ```
 
-``javascript
+```javascript
   /**
    * In order to catch error on the requestDevice and attemptReconnect methods use an async function and await the die's methods
    * Example:
@@ -123,7 +123,7 @@ Requests:
 		console.log("Error on connecting die")
 	}
  }
-   
+ ```
    
 Responses:   
 ----------
