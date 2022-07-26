@@ -109,6 +109,20 @@ Requests:
   */
   setDieType(GoDice.diceTypes)
 ```
+
+``javascript
+  /**
+   * In order to catch error on the requestDevice and attemptReconnect methods use an async function and await the die's methods
+   * Example:
+   */
+ async function openConnectionDialog() {
+	const newDice = new GoDice();
+	try {
+		await newDice.requestDevice();
+	} catch {
+		console.log("Error on connecting die")
+	}
+ }
    
    
 Responses:   
