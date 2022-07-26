@@ -113,6 +113,7 @@ Requests:
 ```javascript
   /**
    * In order to catch error on the requestDevice and attemptReconnect methods use an async function and await the die's methods
+   * Note: awaiting inside of the function will block it's execution
    * Example:
    */
  async function openConnectionDialog() {
