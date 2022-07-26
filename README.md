@@ -94,6 +94,13 @@ Requests:
 ```
 
 ```javascript
+ /**
+  * Attempts to recconect to dice's bluetooth device, incase the device is already connected 
+  * If the reconnection was successful an onDiceConnected event will follow
+ **/
+ attemptReconnect()
+
+```javascript
   /**
   * Sets the die type for the die value calculations, Use GoDice.diceTypes.X for die type.
   * Supported dice types (Shells): D6, D20, D10, D10X, D4, D8, D12
@@ -102,7 +109,22 @@ Requests:
   */
   setDieType(GoDice.diceTypes)
 ```
-   
+
+```javascript
+  /**
+   * In order to catch error on the requestDevice and attemptReconnect methods use an async function and await the die's methods
+   * Note: awaiting inside of the function will block it's execution
+   * Example:
+   */
+ async function openConnectionDialog() {
+	const newDice = new GoDice();
+	try {
+		await newDice.requestDevice();
+	} catch {
+		console.log("Error on connecting die")
+	}
+ }
+ ```
    
 Responses:   
 ----------
@@ -122,8 +144,26 @@ GoDice.prototype.onDiceConnected = (diceId, diceInstance) => {
   // die unique identifier
   let dieClass = diceInstance;		
 };
-```    
+```
+
+```javascript
+ /**
+  * To recognize when a die has disconneted, override the function "onDiceDisconnected" in the GoDice class, with the following parameter:
+  * @param {string} diceID - the die unique identifier	 
+  * @param {GoDice class} diceInstance - the die class instance	 
+  */
+
+// example:
   
+GoDice.prototype.onDiceDisconnected = (diceId, diceInstance) => {  
+  // die unique identifier
+  let dieIdentifier = diceID;
+	
+  // die unique identifier
+  let dieClass = diceInstance;		
+};
+```
+
  ```javascript
  /**
   * To recognize the battery level, override the function "onBatteryLevel" in the GoDice class, with the following parameter:
