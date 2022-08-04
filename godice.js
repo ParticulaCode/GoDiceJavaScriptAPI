@@ -237,6 +237,7 @@ class GoDice {
 	onTiltStable(){};
 	onMoveStable(){};
 	onDiceConnected(){};
+	onDiceDisconnected(){};
 
 	/******* API functions *******/
 
@@ -244,7 +245,7 @@ class GoDice {
 	 * Request for the die battery, that should follow by corresponding "BatteryLevel" event (response).
 	 */
 	getBatteryLevel() {
-		console.log(this)
+		console.debug(this)
 		this.sendMessage([this.messageIdentifiers.BATTERY_LEVEL]);
 	}
 
@@ -252,7 +253,7 @@ class GoDice {
 	 * Request for the die color, that should follow by corresponding "DiceColor" event (response).
 	 */
 	getDiceColor() {
-		console.log(this)
+		console.debug(this)
 		this.sendMessage([this.messageIdentifiers.DICE_COLOUR]);
 	}
 	
@@ -269,12 +270,29 @@ class GoDice {
 			filters: [{ namePrefix: 'GoDice_' }],
 			optionalServices: ['6e400001-b5a3-f393-e0a9-e50e24dcca9e']
 		})
-			.then(device => {				
+			.then(async device => {				
 				this.GlobalDeviceId = device.id.toString();				
-				this.bluetoothDevice = device;				
-				this.bluetoothDevice.addEventListener('gattserverdisconnected', this.onDisconnected);				
-				this.connectDeviceAndCacheCharacteristics();				
+				this.bluetoothDevice = device;
+				var _self = this
+				this.bluetoothDevice.addEventListener('gattserverdisconnected', function() {
+					_self.onDiceDisconnected(_self.GlobalDeviceId, _self)
+				})
+				await this.connectDeviceAndCacheCharacteristics();				
 			});
+	}
+	
+	/**
+	 * Attempts to reconnect to the device incase of disconnect
+	 */
+	async attemptReconnect() {
+		if (this.bluetoothDevice) {
+			// This object's device exists
+			if (this.bluetoothDevice.gatt.connected) {
+				console.debug(this.GlobalDeviceId + "'s Bluetooth device is already connected")
+			} else {
+				await this.connectDeviceAndCacheCharacteristics()
+			}
+		}
 	}
 
 	/**
@@ -548,7 +566,4 @@ class GoDice {
 		this.bluetoothDevice = null;
 	}
 
-	onDisconnected(event) {
-		console.debug('> Bluetooth Device disconnected:' + event);
-	}
 }
