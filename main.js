@@ -157,6 +157,18 @@ GoDice.prototype.onRollStart = (diceId) => {
 	diceIndicatorEl.textContent = "Rollling....";
 };
 
+GoDice.prototype.onDiceDisconnected = (diceId, diceInstance) => {
+	console.log("Roll Start: ", diceId);
+  
+	// get rolling indicator
+	const diceIndicatorEl = document.getElementById(diceId + "-die-status");
+  
+	// show rolling 
+	diceIndicatorEl.textContent = "disconnected";
+	// Attempt to reconnect
+	diceInstance.attemptReconnect(diceId, diceInstance);
+  };
+  
 GoDice.prototype.onStable = (diceId, value, xyzArray) => {
 	console.log("Stable event: ", diceId, value);
 

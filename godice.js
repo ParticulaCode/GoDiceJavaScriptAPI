@@ -284,16 +284,21 @@ class GoDice {
 	/**
 	 * Attempts to reconnect to the device incase of disconnect
 	 */
-	async attemptReconnect() {
-		if (this.bluetoothDevice) {
-			// This object's device exists
-			if (this.bluetoothDevice.gatt.connected) {
-				console.debug(this.GlobalDeviceId + "'s Bluetooth device is already connected")
-			} else {
-				await this.connectDeviceAndCacheCharacteristics()
-			}
+	async attemptReconnect(diceId, diceInstance) {
+		while (!this.bluetoothDevice.gatt.connected) {
+		  console.log("Reconnecting to: ", diceId);
+		  try {
+			await this.connectDeviceAndCacheCharacteristics()
+		  } catch (error) {
+			console.error("Error while trying to reconnect: ", error)
+		  }
+		  if (!this.bluetoothDevice.gatt.connected) {
+			await new Promise(resolve => setTimeout(resolve, 1000))
+		  }
 		}
-	}
+		console.log(diceId + " reconnected!")
+	  }
+	  
 
 	/**
 	 * Turn On/Off RGB LEDs, will turn off if led1 and led2 are null
